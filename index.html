@@ -13,38 +13,52 @@
   <body>
     <header>
       <a href="./index.html" class="logo">
-        <img />[Logo]
+        <img src="./assets/Brand mark.svg" alt="">
         <span>Quizify</span>
       </a>
-      <button>DarkMode Switch</button>
+      <button class="theme-toggle" aria-label="Switch dark mode" aria-pressed="false">
+        <span class="knob"></span>
+        <svg class="sun" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.49992 1.41614V2.83292M8.49992 14.1672V15.5839M3.49138 3.4915L4.49021 4.49033M12.5095 12.5096L13.5083 13.5085M1.41602 8.50004H2.8328M14.167 8.50004H15.5838M4.49021 12.5096L3.49138 13.5085M13.5083 3.4915L12.5095 4.49033M11.3335 8.50004C11.3335 10.065 10.0648 11.3336 8.49992 11.3336C6.93498 11.3336 5.66636 10.065 5.66636 8.50004C5.66636 6.93511 6.93498 5.66648 8.49992 5.66648C10.0648 5.66648 11.3335 6.93511 11.3335 8.50004Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <svg class="moon" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.6514 12.2535C14.3765 11.2581 14.7976 10.074 14.864 8.84436C14.8796 8.55752 14.5389 8.40807 14.2952 8.56035C13.4802 9.06966 12.5167 9.28775 11.5618 9.17901C10.6068 9.07028 9.71698 8.64114 9.03739 7.96165C8.35781 7.28215 7.92862 6.3924 7.81987 5.43762C7.71112 4.48283 7.92923 3.51938 8.43861 2.7045C8.59091 2.46157 8.44074 2.12019 8.15386 2.13577C6.92407 2.20228 5.73988 2.62353 4.74442 3.34861C3.74897 4.07369 2.98488 5.07155 2.54451 6.22156C2.10414 7.37158 2.00636 8.62451 2.26297 9.82891C2.51958 11.0333 3.11961 12.1376 3.99052 13.0083C4.86143 13.879 5.96593 14.4788 7.17051 14.7353C8.37509 14.9917 9.62818 14.8938 10.7783 14.4534C11.9284 14.013 12.9263 13.2489 13.6514 12.2535Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
     </header>
-
-    <hr />
 
     <main>
       <div class="welcome-top">
-        <img>[Quiz Illustration]
-        <span>General Knowledge</span>
+        <img src="./assets/Quiz illustration.svg" alt="">
+        <span class="badge">General Knowledge</span>
       </div>
-      <section>
+      <section class="card">
         <h1>Welcome to Quizify!</h1>
-        <p>Test your knowledge, challenge yourself, and see how much you know!</p>
-        <ul>
-            <li><img>[Icon] 10 Questions</li>
-            <li><img>[Icon] About 5 minutes</li>
+        <p class="intro">Test your knowledge, challenge yourself, and see how much you know!</p>
+        <ul class="quiz-info">
+            <li>
+              <img src="./assets/list-check 1.svg" alt=""> 10 Questions
+            </li>
+            <li>
+              <img src="./assets/clock 1.svg" alt="">
+              <span class="hide-desktop">~5 minutes</span>
+              <span class="hide-mobile">About 5 minutes</span>
+            </li>
         </ul>
         
-        <h2>How to play</h2>
-        <p>Choose one answer, then submit. Learn from each answer.</p>
-        
+        <div class="how-to">
+          <h2>How to play</h2>
+          <p>Choose one answer, then submit.<br>Learn from each answer and see your score.</p>
+        </div>
+
         <button>Start Quiz</button>
       </section>
-      <p>No timer. No pressure. Just a little discovery.</p>
+      <p class="note">No timer. No pressure. Just a little discovery.</p>
     </main>
 
     <footer>
       <p>A little curiosity goes a long way.</p>
-      <p>Made for curious minds</p>
+      <p class="hide-mobile">General knowledge · Made for curious minds</p>
     </footer>
   </body>
 </html>
