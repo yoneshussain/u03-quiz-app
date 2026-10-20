@@ -1,0 +1,25 @@
+.quiz-progress {
+  width: 100%;
+  max-width: 45rem;
+  margin: 0 auto 24px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.progress-bar {
+  background-color: #E6E9F4;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#progress-fill {
+  width: 10%;
+  height: 100%;
+  background-color: var(--color-toggle-active);
+  border-radius: 999px;
+}
