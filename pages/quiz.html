@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QUIZ</title>
     <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/quiz.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,9 +16,26 @@
   <body>
     <header></header>
     <main>
+      <section class="quiz-progress">
+        <div class="progress-info">
+          <span id="question-number">Question 1 of 10</span>
+          <span id="progress-percent">10%</span>
+        </div>
+
+        <div class="progress-bar">
+          <div id="progress-fill"></div>
+        </div>
+      </section>
+
       <section class="card">
         <h2>Frågan</h2>
         <!--test bara-->
+
+        <div class="quiz-navigation">
+          <p>Select an answer to continue.</p>
+          <button id="next-btn" type="button" disabled>Next Question <img src="../assets/arrow-right.svg" alt=""></button>
+          
+        </div>
       </section>
     </main>
     <footer></footer>
