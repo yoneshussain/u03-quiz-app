@@ -1,0 +1,94 @@
+{
+  "quiz": [
+    {
+      "id": 1,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 2,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 3,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 4,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 5,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 6,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 7,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 8,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 9,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    },
+    {
+      "id": 10,
+      "question": "FRÅGA",
+      "alt-1": "SVAR",
+      "alt-2": "SVAR",
+      "alt-3": "SVAR",
+      "alt-4": "SVAR",
+      "answer": "RÄTT SVAR"
+    }
+  ]
+}
