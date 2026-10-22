@@ -28,13 +28,72 @@
       </section>
 
       <section class="card">
-        <h2>Frågan</h2>
-        <!--test bara-->
+        <div class="question-header">
+          <p class="question-category">SCIENCE</p>
+          <h1 class="question-title">What is the chemical symbol for gold?</h1>
+          <p class="question-instruction">Choose one answer, then submit.</p>
+        </div>
+        <fieldset class="question-options">
+          <legend class="visually-hidden">Choose one answer</legend>
+
+          <label class="answer-option">
+            <input
+              class="visually-hidden"
+              type="radio"
+              name="answer"
+              value="Ag"
+            />
+            <span class="answer-letter" aria-hidden="true">A</span>
+            <span class="answer-text">Ag</span>
+          </label>
+
+          <label class="answer-option">
+            <input
+              class="visually-hidden"
+              type="radio"
+              name="answer"
+              value="Au"
+            />
+            <span class="answer-letter" aria-hidden="true">B</span>
+            <span class="answer-text">Au</span>
+          </label>
+
+          <label class="answer-option">
+            <input
+              class="visually-hidden"
+              type="radio"
+              name="answer"
+              value="Fe"
+            />
+            <span class="answer-letter" aria-hidden="true">C</span>
+            <span class="answer-text">Fe</span>
+          </label>
+
+          <label class="answer-option">
+            <input
+              class="visually-hidden"
+              type="radio"
+              name="answer"
+              value="Cu"
+            />
+            <span class="answer-letter" aria-hidden="true">D</span>
+            <span class="answer-text">Cu</span>
+          </label>
+        </fieldset>
+        <button id="submit-answer-btn" type="button">Submit Answer</button>
+
+        <div class="answer-feedback" aria-live="polite" hidden>
+          <h2 class="feedback-title">Correct!</h2>
+          <p class="feedback-explanation">
+            The chemical symbol for gold is Au.
+          </p>
+        </div>
 
         <div class="quiz-navigation">
           <p>Select an answer to continue.</p>
-          <button id="next-btn" type="button" disabled>Next Question <img src="../assets/arrow-right.svg" alt=""></button>
-          
+          <button id="next-btn" type="button" disabled>
+            Next Question <img src="../assets/arrow-right.svg" alt="" />
+          </button>
         </div>
       </section>
     </main>
