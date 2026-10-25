@@ -10,11 +10,14 @@
   --color-background: #f7f8fc;
   --color-heading: #20273d;
   --color-toggle-bg: #eceff6;
+  --color-toggle-btn-background: #ffffff;
+  --color-card-background: #ffffff; 
   --color-white: #ffffff;
   --color-toggle-active: #5260d8;
   --color-toggle-inactive: #667089;
   --color-border: #e3e7f1;
   --color-card-shadow: rgba(40, 52, 80, 0.035);
+  --color-btn: #5260D8;
   --color-text: #667089;
 }
 
@@ -101,7 +104,7 @@ header {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: var(--color-white);
+    background: var(--color-toggle-btn-background);
     top: 0.25rem;
     left: 0.25rem;
     transition: transform 0.25s;
@@ -116,7 +119,7 @@ main {
 
 .card {
   flex: 1;
-  background: var(--color-white);
+  background: var(--color-card-background);
   border-radius: 24px;
   padding: 2.5rem 1.5rem;
   box-shadow: 0 0.75rem 2.5rem var(--color-card-shadow);
@@ -167,4 +170,19 @@ footer {
     justify-content: space-between;
     padding: 1.75rem 4rem;
   }
+}
+
+:root.dark {
+  --color-background: #141827;
+  --color-heading: #F2F4FF;
+  --color-toggle-bg: #252B40;
+  --color-toggle-btn-background: #1D2336;
+  --color-card-background: #1D2336;
+  --color-white: #ffffff;
+  --color-toggle-active: #A4ABFF;
+  --color-toggle-inactive: #A8B2CC;
+  --color-border: #2B3248;
+  --color-card-shadow: rgba(49, 62, 75, 0.035);
+  --color-btn: #5260D8;
+  --color-text: #A8B2CC;
 }
