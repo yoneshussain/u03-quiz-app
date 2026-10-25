@@ -90,7 +90,7 @@ main {
 
   button {
     margin-top: 1rem;
-    background: var(--color-toggle-active);
+    background: var(--color-btn);
     color: var(--color-white);
     border: none;
     border-radius: 14px;
@@ -153,4 +153,9 @@ main {
       margin-top: auto;
     }
   }
+}
+
+:root.dark {
+  --color-badge-txt: #A5ADFF;
+  --color-badge-bg: #2A2F5A;
 }
