@@ -64,6 +64,7 @@
   height: 100%;
   background-color: var(--color-toggle-active);
   border-radius: 999px;
+  transition: width 1s ease;
 }
 /* Quiz Navigation */
 .quiz-navigation {
