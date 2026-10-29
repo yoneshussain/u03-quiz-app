@@ -131,6 +131,7 @@ main {
 
 footer {
   display: flex;
+  justify-content: center;
   padding: 1.75rem 1.5rem;
 
   p {
@@ -184,5 +185,5 @@ footer {
   --color-border: #2B3248;
   --color-card-shadow: rgba(49, 62, 75, 0.035);
   --color-btn: #5260D8;
-  --color-text: #A8B2CC;
+  --color-text: #e1e3e8;
 }

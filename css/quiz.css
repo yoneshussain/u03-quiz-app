@@ -56,26 +56,36 @@
 
 /* Quiz Progress */
 .quiz-progress {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 45rem;
   margin: 0 auto 24px;
+  padding: 0px 20px;
 }
 
 .progress-info {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 12px;
 }
 
 #question-number {
+  margin-right: auto;
   font-size: 14px;
   font-weight: 600;
   color: var(--color-heading);
 }
 
 #progress-percent {
+  margin-left: auto;
   font-size: 13px;
   color: var(--color-toggle-inactive);
+}
+
+#timer-display {
+  padding-right: 83px;
+  font-weight: 900;
 }
 
 .progress-bar {
@@ -311,10 +321,19 @@
   .quiz-navigation {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
     padding-top: 28px;
     margin-top: 24px;
   }
+
+  #previous-btn {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+.card {
+  margin: 0px 30px;
+}
 }
 
 @media (max-width: 480px) {
@@ -339,7 +358,7 @@
   --color-incorrect-border: #7a3a44;
   --color-incorrect-title: #ff9b9b;
   --color-option-selected: #2a2f55;
-  --color-timeout-bg: #fff8e6;
-  --color-timeout-border: #f0d48a;
-  --color-timeout-title: #8a5a00;
+  --color-timeout-bg: #5d502b;
+  --color-timeout-border: #9d9377;
+  --color-timeout-title: #ffc65c;
 }
