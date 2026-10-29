@@ -84,7 +84,7 @@
              width: 148px;
              height: 148px;
              border-radius: 50%;
-             border: 8px solid #EEF0FF;
+             border: 8px solid var(--color-background);
          }
 
          .inner {
@@ -103,7 +103,7 @@
          }
 
          .quiz-percentage {
-             color: var(--color-toggle-active);
+             color: var(--color-btn);
              font-weight: 600;
          }
 
@@ -112,11 +112,11 @@
 
              circle {
                  fill: none;
-                 stroke: var(--color-toggle-active);
+                 stroke: var(--color-btn);
                  stroke-width: 7px;
                  stroke-dasharray: 100;
                  stroke-dashoffset: 100;
-                 animation: anim 2.5s ease forwards;
+                 animation: anim 3s ease forwards;
                  transform: rotate(-90deg);
                  transform-origin: center;
              }
@@ -170,7 +170,7 @@
              }
 
              .answered-score {
-                 color: var(--color-toggle-active);
+                 color: var(--color-btn);
              }
 
              p {
@@ -227,7 +227,7 @@
              border-radius: 14px;
              font-size: 1.5rem;
              border: none;
-             background-color: var(--color-toggle-active);
+             background-color: var(--color-btn);
              font-family: "Inter";
              cursor: pointer;
 
@@ -299,7 +299,7 @@
  }
 
  @keyframes anim {
-     100% {
+     to {
          stroke-dashoffset: 20;
      }
  }
