@@ -1,3 +1,4 @@
+
 const STORAGE_KEY = "quizState";
 const RESULTS_KEY = "quizResults";
 const POINTS_PER_QUESTION = 10;
@@ -38,15 +39,31 @@ const previousButton = document.createElement("button");
 
 previousButton.id = "previous-btn";
 previousButton.type = "button";
-previousButton.textContent = "Previous Question";
 previousButton.disabled = true;
+
+const previousIcon = document.createElement("img");
+previousIcon.src = "../assets/arrow-left.svg";
+previousIcon.alt = "";
+
+const previousText = document.createElement("span");
+previousText.textContent = "Previous Question";
+
+previousButton.append(previousIcon, previousText);
 
 // Basic styling without changing team CSS
 Object.assign(previousButton.style, {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "10px",
+  height: "52px",
+  fontFamily: `"Inter", sans-serif`,
+  fontSize: "15px",
+  fontWeight: "600",
   padding: "12px 16px",
-  borderRadius: "8px",
-  border: "1px solid currentColor",
-  background: "transparent",
+  borderRadius: "14px",
+  border: "1px solid var(--color-border)",
+  backgroundColor: "var(--color-white)",
   color: "inherit",
   cursor: "pointer",
 });
@@ -356,6 +373,9 @@ answerOptions.forEach((option) => {
     if (quizState === "submitted") return;
     if (questions.length === 0) return;
 
+    soundClick.currentTime = 0;
+    soundClick.play();
+
     const currentQuestion = questions[currentQuestionIndex];
 
     savedAnswers[currentQuestion.id] = {
@@ -455,14 +475,21 @@ function finishQuiz() {
 // Navigation events
 nextButton.addEventListener("click", () => {
   if (quizState === "selected") {
+    soundClick.currentTime = 0; 
+    soundClick.play();
     submitAnswer();
   } else if (quizState === "submitted") {
+    soundClick.currentTime = 0;
+    soundClick.play();
     nextQuestion();
   }
 });
 
-previousButton.addEventListener("click", previousQuestion);
-
+previousButton.addEventListener("click", () => {
+    soundClick.currentTime = 0;
+    soundClick.play();
+    previousQuestion();
+});
 // Initialize quiz
 updateButtonState();
 loadQuestions();
