@@ -1,9 +1,15 @@
 const quizScore = document.querySelector(".quiz-score");
+const homeBtn = document.querySelector(".home-button");
+const restartBtn = document.querySelector(".restart-button");
+const quizStarted = localStorage.getItem("quizStarted");
 
-let userScore = 
-
-document.addEventListener("DOMContentLoaded", () => {
-  
-    
-
+homeBtn.addEventListener("click", () => {
+  localStorage.setItem("quizStarted", false);
 });
+
+restartBtn.addEventListener("click", () => {
+  localStorage.setItem("quizStarted", true);
+  window.location.href = "../pages/quiz.html"
+});
+
+document.addEventListener("DOMContentLoaded", () => {});
