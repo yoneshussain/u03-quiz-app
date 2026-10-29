@@ -11,7 +11,12 @@ const circleAnim = document.querySelector(".progress-circle");
 const quizState = JSON.parse(localStorage.getItem("quizState"));
 const factsBox = document.querySelector(".facts-box");
 const resultsQuote = document.querySelector(".results-quote");
+const factsLabel = document.querySelector(".facts-label");
+const fact = document.querySelector(".fact");
+const textHolder = document.querySelector(".text-holder");
+const factAnswer = document.querySelector(".fact-answer");
 const gif = document.createElement("img");
+
 gif.src = "../assets/confetti.gif";
 gif.style.position = "fixed";
 gif.style.inset = "0";
@@ -67,6 +72,7 @@ getQuestions().then((data) => {
   console.log(answers);
   console.log(answeredQuestions);
   const incorrectAnswers = [];
+  const selectedFacts = []
 
   for (let i = 0; i < answers.length; i++) {
     const correctAnswers = answers[i].answer;
@@ -81,12 +87,19 @@ getQuestions().then((data) => {
   if (incorrectAnswers.length === 0) {
     console.log("no incorrect answeres");
     factsBox.style.display = "none";
-    resultsQuote.textContent = "Great work! You've got a curious mind 🎉";
+    resultsQuote.textContent = "Well done! You got all questions correct 🎉";
     document.body.append(gif);
     setTimeout(() => {
-      gif.remove()
-    }, 4000)
+      gif.remove();
+    }, 4000);
   }
-
   console.log(incorrectAnswers);
+
+  const randomNum = Math.floor(Math.random() * incorrectAnswers.length);
+  console.log(Math.floor(randomNum));
+
+  const selectedFact = incorrectAnswers.splice(randomNum)
+  selectedFact.push(selectedFacts)  
+
+  console.log(selectedFacts);
 });
