@@ -359,6 +359,7 @@ answerOptions.forEach((option) => {
 
     quizState = "selected";
 
+    quizState = "selected";
     updateButtonState();
     saveQuizState();
   });
