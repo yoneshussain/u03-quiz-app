@@ -1,3 +1,14 @@
+.card {
+  flex: none;
+}
+
+.note {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text);
+  margin-top: 1.25rem;
+}
+
 /* Quiz Header */
 .quiz-header {
   display: flex;
@@ -252,6 +263,23 @@
 
 .answer-feedback.is-incorrect .feedback-title {
   color: #b33a3a;
+}
+
+.quote-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 24px;
+}
+
+.quote-text img {
+  width: 15px;
+  height: 15px;
+}
+
+.quote-text .note {
+  margin: 0;
 }
 
 /* Responsive */
