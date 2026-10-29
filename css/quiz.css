@@ -6,7 +6,7 @@
   margin: 48px 0 24px;
 }
 
-.home-btn {
+.home-link {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -15,9 +15,10 @@
   cursor: pointer;
   color: var(--color-text);
   font-size: 13px;
+  text-decoration: none;
 }
 
-.home-btn img {
+.home-link img {
   width: 18px;
   height: 18px;
   /* Fix Color */
