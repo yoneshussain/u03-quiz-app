@@ -1,13 +1,14 @@
 
-let currentQuestionIndex = 0;
+const STORAGE_KEY = "quizState";
+const RESULTS_KEY = "quizResults";
+const POINTS_PER_QUESTION = 10;
+
 let questions = [];
+let currentQuestionIndex = 0;
 let quizState = "waiting";
 
-let score = 0;
-let correctAnswers = 0;
-let incorrectAnswers = 0;
-
-const pointsPerQuestion = 10;
+// Stores answers by question ID
+let savedAnswers = {};
 
 // DOM Elements
 const questionTitle = document.querySelector(".question-title");
@@ -23,9 +24,33 @@ const quizMessage = document.getElementById("quiz-message");
 
 const answerFeedback = document.querySelector(".answer-feedback");
 const feedbackTitle = document.querySelector(".feedback-title");
-const feedbackExplanation = document.querySelector(".feedback-explanation");
+const feedbackExplanation = document.querySelector(
+  ".feedback-explanation",
+);
 
-// Load questions from JSON
+// Create Previous Question button
+const previousButton = document.createElement("button");
+
+previousButton.id = "previous-btn";
+previousButton.type = "button";
+previousButton.textContent = "Previous Question";
+previousButton.disabled = true;
+
+// Basic styling without changing team CSS
+Object.assign(previousButton.style, {
+  padding: "12px 16px",
+  borderRadius: "8px",
+  border: "1px solid currentColor",
+  background: "transparent",
+  color: "inherit",
+  cursor: "pointer",
+});
+
+const navigation = document.querySelector(".quiz-navigation");
+
+navigation.insertBefore(previousButton, nextButton);
+
+// Load questions
 async function loadQuestions() {
   try {
     nextButton.disabled = true;
@@ -42,32 +67,54 @@ async function loadQuestions() {
       throw new Error("No questions found");
     }
 
-    questions = shuffleQuestions([...data.quiz]);
+    const storedState = loadQuizState();
 
-    currentQuestionIndex = 0;
-    quizState = "waiting";
+    if (storedState) {
+      // Restore the original shuffled question order
+      const questionMap = new Map(
+        data.quiz.map((question) => [question.id, question]),
+      );
 
-    score = 0;
-    correctAnswers = 0;
-    incorrectAnswers = 0;
+      const restoredQuestions = storedState.questionOrder.map(
+        (id) => questionMap.get(id),
+      );
+
+      const validOrder =
+        restoredQuestions.length === data.quiz.length &&
+        restoredQuestions.every(Boolean) &&
+        new Set(storedState.questionOrder).size === data.quiz.length;
+
+      if (validOrder) {
+        questions = restoredQuestions;
+
+        currentQuestionIndex = Math.min(
+          Math.max(0, storedState.currentQuestionIndex),
+          questions.length - 1,
+        );
+
+        savedAnswers = storedState.savedAnswers;
+
+        console.log("Quiz progress restored.");
+      } else {
+        startNewQuiz(data.quiz);
+      }
+    } else {
+      startNewQuiz(data.quiz);
+    }
 
     displayQuestion();
-    updateButtonState();
-
-    console.log(
-      "Questions order:",
-      questions.map((question) => question.id),
-    );
   } catch (error) {
     console.error("Error loading questions:", error);
 
     questionTitle.textContent = "Unable to load quiz.";
-    quizMessage.textContent = "Please refresh the page and try again.";
+    quizMessage.textContent = "Please refresh and try again.";
+
     nextButton.disabled = true;
+    previousButton.disabled = true;
   }
 }
 
-// Fisher-Yates shuffle algorithm
+// Fisher-Yates shuffle
 function shuffleQuestions(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const randomIndex = Math.floor(Math.random() * (i + 1));
@@ -81,27 +128,118 @@ function shuffleQuestions(array) {
   return array;
 }
 
-// Display the current question
+// Start a new quiz
+function startNewQuiz(quizData) {
+  questions = shuffleQuestions([...quizData]);
+
+  currentQuestionIndex = 0;
+  quizState = "waiting";
+  savedAnswers = {};
+
+  localStorage.removeItem(RESULTS_KEY);
+
+  saveQuizState();
+}
+
+// Save entire quiz state
+function saveQuizState() {
+  const state = {
+    questionOrder: questions.map((question) => question.id),
+    currentQuestionIndex: currentQuestionIndex,
+    savedAnswers: savedAnswers,
+  };
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+// Read saved quiz state
+function loadQuizState() {
+  const storedData = localStorage.getItem(STORAGE_KEY);
+
+  if (!storedData) return null;
+
+  try {
+    const state = JSON.parse(storedData);
+
+    if (
+      !Array.isArray(state.questionOrder) ||
+      !Number.isInteger(state.currentQuestionIndex) ||
+      !state.savedAnswers ||
+      typeof state.savedAnswers !== "object" ||
+      Array.isArray(state.savedAnswers)
+    ) {
+      return null;
+    }
+
+    return state;
+  } catch (error) {
+    console.error("Invalid saved quiz state:", error);
+    return null;
+  }
+}
+
+// Get the current question's saved answer
+function getCurrentAnswer() {
+  const currentQuestion = questions[currentQuestionIndex];
+
+  return savedAnswers[currentQuestion.id] || null;
+}
+
+// Calculate score from submitted answers
+function calculateScore() {
+  let correct = 0;
+  let incorrect = 0;
+
+  questions.forEach((question) => {
+    const record = savedAnswers[question.id];
+
+    if (!record || !record.submitted) return;
+
+    if (record.selectedAnswer === question.answer) {
+      correct++;
+    } else {
+      incorrect++;
+    }
+  });
+
+  return {
+    score: correct * POINTS_PER_QUESTION,
+    correctAnswers: correct,
+    incorrectAnswers: incorrect,
+  };
+}
+
+// Display question
 function displayQuestion() {
   if (questions.length === 0) return;
 
   const currentQuestion = questions[currentQuestionIndex];
+  const record = getCurrentAnswer();
 
   questionTitle.textContent = currentQuestion.question;
 
-  quizState = "waiting";
-
-  answerFeedback.hidden = true;
-  answerFeedback.classList.remove("is-correct", "is-incorrect");
+  if (!record) {
+    quizState = "waiting";
+  } else if (record.submitted) {
+    quizState = "submitted";
+  } else {
+    quizState = "selected";
+  }
 
   displayAnswers();
+  displayFeedback();
   updateProgress();
   updateButtonState();
+
+  previousButton.disabled = currentQuestionIndex === 0;
+
+  saveQuizState();
 }
 
-// Display the four answers
+// Display answers
 function displayAnswers() {
   const currentQuestion = questions[currentQuestionIndex];
+  const record = getCurrentAnswer();
 
   const answers = [
     currentQuestion["alt-1"],
@@ -115,40 +253,78 @@ function displayAnswers() {
     const answerText = option.querySelector(".answer-text");
 
     input.value = answers[index];
-    input.checked = false;
-    input.disabled = false;
-
     answerText.textContent = answers[index];
+
+    input.checked =
+      record?.selectedAnswer === answers[index];
+
+    input.disabled = Boolean(record?.submitted);
   });
 }
 
-// Update the progress bar
+// Display feedback
+function displayFeedback() {
+  const currentQuestion = questions[currentQuestionIndex];
+  const record = getCurrentAnswer();
+
+  answerFeedback.hidden = true;
+  answerFeedback.classList.remove("is-correct", "is-incorrect");
+
+  if (!record || !record.submitted) return;
+
+  const isCorrect =
+    record.selectedAnswer === currentQuestion.answer;
+
+  answerFeedback.hidden = false;
+
+  if (isCorrect) {
+    answerFeedback.classList.add("is-correct");
+
+    feedbackTitle.textContent = "Correct!";
+    feedbackExplanation.textContent =
+      `Great job! You earned ${POINTS_PER_QUESTION} points.`;
+  } else {
+    answerFeedback.classList.add("is-incorrect");
+
+    feedbackTitle.textContent = "Incorrect!";
+    feedbackExplanation.textContent =
+      `The correct answer is ${currentQuestion.answer}.`;
+  }
+}
+
+// Update progress bar
 function updateProgress() {
   const totalQuestions = questions.length;
 
   if (totalQuestions === 0) return;
 
   const displayedQuestion = currentQuestionIndex + 1;
-  const percentage = (displayedQuestion / totalQuestions) * 100;
+  const percentage =
+    (displayedQuestion / totalQuestions) * 100;
 
   questionNumber.textContent =
     `Question ${displayedQuestion} of ${totalQuestions}`;
 
-  progressPercent.textContent = `${Math.round(percentage)}%`;
+  progressPercent.textContent =
+    `${Math.round(percentage)}%`;
 
   progressFill.style.width = `${percentage}%`;
 }
 
-// Update button depending on quiz state
+// Update navigation button
 function updateButtonState() {
   if (quizState === "waiting") {
     nextButton.disabled = true;
     nextButtonText.textContent = "Submit Answer";
-    quizMessage.textContent = "Select an answer to continue.";
+
+    quizMessage.textContent =
+      "Select an answer to continue.";
   } else if (quizState === "selected") {
     nextButton.disabled = false;
     nextButtonText.textContent = "Submit Answer";
-    quizMessage.textContent = "Ready? Submit to check your answer.";
+
+    quizMessage.textContent =
+      "Ready? Submit to check your answer.";
   } else if (quizState === "submitted") {
     nextButton.disabled = false;
 
@@ -159,75 +335,60 @@ function updateButtonState() {
       ? "View Results"
       : "Next Question";
 
+    const results = calculateScore();
+
     quizMessage.textContent =
-      `Your score: ${score} points`;
+      `Your score: ${results.score} points`;
   }
 }
 
-// Detect when an answer is selected
+// Handle answer selection
 answerOptions.forEach((option) => {
   const input = option.querySelector("input");
 
   input.addEventListener("change", () => {
     if (quizState === "submitted") return;
+    if (questions.length === 0) return;
+
+    const currentQuestion = questions[currentQuestionIndex];
+
+    savedAnswers[currentQuestion.id] = {
+      selectedAnswer: input.value,
+      submitted: false,
+    };
 
     quizState = "selected";
+
     updateButtonState();
+    saveQuizState();
   });
 });
 
-// Submit and check the selected answer
+// Submit answer
 function submitAnswer() {
   if (quizState !== "selected") return;
 
-  const selectedAnswer = document.querySelector(
-    'input[name="answer"]:checked',
-  );
-
-  if (!selectedAnswer) return;
-
   const currentQuestion = questions[currentQuestionIndex];
+  const record = getCurrentAnswer();
 
-  const isCorrect =
-    selectedAnswer.value === currentQuestion.answer;
+  if (!record || record.submitted) return;
 
-  if (isCorrect) {
-    score += pointsPerQuestion;
-    correctAnswers++;
-  } else {
-    incorrectAnswers++;
-  }
+  const validAnswers = [
+    currentQuestion["alt-1"],
+    currentQuestion["alt-2"],
+    currentQuestion["alt-3"],
+    currentQuestion["alt-4"],
+  ];
 
-  // Show feedback
-  answerFeedback.hidden = false;
-  answerFeedback.classList.remove("is-correct", "is-incorrect");
+  if (!validAnswers.includes(record.selectedAnswer)) return;
 
-  if (isCorrect) {
-    answerFeedback.classList.add("is-correct");
-
-    feedbackTitle.textContent = "Correct!";
-
-    feedbackExplanation.textContent =
-      `Great job! You earned ${pointsPerQuestion} points.`;
-  } else {
-    answerFeedback.classList.add("is-incorrect");
-
-    feedbackTitle.textContent = "Incorrect!";
-
-    feedbackExplanation.textContent =
-      `The correct answer is ${currentQuestion.answer}.`;
-  }
-
-  // Lock the answer options
-  answerOptions.forEach((option) => {
-    const input = option.querySelector("input");
-    input.disabled = true;
-  });
+  record.submitted = true;
 
   quizState = "submitted";
-  updateButtonState();
 
-  console.log("Current score:", score);
+  saveQuizState();
+
+  displayQuestion();
 }
 
 // Move to next question
@@ -243,33 +404,50 @@ function nextQuestion() {
   }
 }
 
-// Finish quiz and save results
+// Go back to previous question
+function previousQuestion() {
+  if (currentQuestionIndex <= 0) return;
+
+  currentQuestionIndex--;
+
+  displayQuestion();
+}
+
+// Finish quiz
 function finishQuiz() {
+  const results = calculateScore();
+
   const totalQuestions = questions.length;
-  const maxScore = totalQuestions * pointsPerQuestion;
+  const maxScore = totalQuestions * POINTS_PER_QUESTION;
 
-  const percentage =
-    totalQuestions > 0
-      ? Math.round((correctAnswers / totalQuestions) * 100)
-      : 0;
+  const percentage = totalQuestions
+    ? Math.round(
+        (results.correctAnswers / totalQuestions) * 100,
+      )
+    : 0;
 
-  const results = {
-    score: score,
+  const finalResults = {
+    score: results.score,
     maxScore: maxScore,
-    correctAnswers: correctAnswers,
-    incorrectAnswers: incorrectAnswers,
+    correctAnswers: results.correctAnswers,
+    incorrectAnswers: results.incorrectAnswers,
     totalQuestions: totalQuestions,
     percentage: percentage,
   };
 
-  sessionStorage.setItem("quizResults", JSON.stringify(results));
+  localStorage.setItem(
+    RESULTS_KEY,
+    JSON.stringify(finalResults),
+  );
 
-  console.log("Final results:", results);
+  saveQuizState();
+
+  console.log("Final results:", finalResults);
 
   window.location.href = "./results.html";
 }
 
-// Handle main button click
+// Navigation events
 nextButton.addEventListener("click", () => {
   if (quizState === "selected") {
     submitAnswer();
@@ -277,6 +455,8 @@ nextButton.addEventListener("click", () => {
     nextQuestion();
   }
 });
+
+previousButton.addEventListener("click", previousQuestion);
 
 // Initialize quiz
 updateButtonState();
