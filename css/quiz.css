@@ -39,10 +39,11 @@
   text-decoration: none;
 }
 
-.home-link img {
+.home-link svg {
   width: 18px;
   height: 18px;
   /* Fix Color */
+  color: var(--color-text);
 }
 
 .quiz-progress span {
