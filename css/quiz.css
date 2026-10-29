@@ -234,10 +234,6 @@
   border: 0;
 }
 
-.answer-option:focus-within {
-  outline: 2px solid var(--color-btn);
-  outline-offset: 3px;
-}
 
 .answer-option:has(input:checked) {
   border-color: var(--color-btn);
@@ -304,6 +300,7 @@
   align-items: center;
   gap: 7px;
   margin-top: 24px;
+  margin-bottom: 20px;
 }
 
 .quote-text img {
