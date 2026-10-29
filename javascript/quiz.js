@@ -23,6 +23,7 @@ const progressPercent = document.getElementById("progress-percent");
 const progressFill = document.getElementById("progress-fill");
 
 const timerDisplay = document.getElementById("timer-display");
+const soundClick = document.getElementById("click-sound");
 
 const answerOptions = document.querySelectorAll(".answer-option");
 
