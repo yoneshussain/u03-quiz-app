@@ -1,4 +1,3 @@
-const soundClick = document.getElementById("click-sound");
 
 const STORAGE_KEY = "quizState";
 const RESULTS_KEY = "quizResults";
@@ -7,6 +6,12 @@ const POINTS_PER_QUESTION = 10;
 let questions = [];
 let currentQuestionIndex = 0;
 let quizState = "waiting";
+
+const timeLimit = 30;
+let timeLeft = timeLimit;
+let timerInterval = null;
+let questionTimers = {};
+let pausedTimers = {};
 
 // Stores answers by question ID
 let savedAnswers = {};
@@ -17,6 +22,9 @@ const questionNumber = document.getElementById("question-number");
 const progressPercent = document.getElementById("progress-percent");
 const progressFill = document.getElementById("progress-fill");
 
+const timerDisplay = document.getElementById("timer-display");
+const soundClick = document.getElementById("click-sound");
+
 const answerOptions = document.querySelectorAll(".answer-option");
 
 const nextButton = document.getElementById("next-btn");
@@ -25,9 +33,7 @@ const quizMessage = document.getElementById("quiz-message");
 
 const answerFeedback = document.querySelector(".answer-feedback");
 const feedbackTitle = document.querySelector(".feedback-title");
-const feedbackExplanation = document.querySelector(
-  ".feedback-explanation",
-);
+const feedbackExplanation = document.querySelector(".feedback-explanation");
 
 // Create Previous Question button
 const previousButton = document.createElement("button");
@@ -92,8 +98,8 @@ async function loadQuestions() {
         data.quiz.map((question) => [question.id, question]),
       );
 
-      const restoredQuestions = storedState.questionOrder.map(
-        (id) => questionMap.get(id),
+      const restoredQuestions = storedState.questionOrder.map((id) =>
+        questionMap.get(id),
       );
 
       const validOrder =
@@ -110,6 +116,8 @@ async function loadQuestions() {
         );
 
         savedAnswers = storedState.savedAnswers;
+        questionTimers = storedState.questionTimers || {};
+        pausedTimers = storedState.pausedTimers || {};
 
         console.log("Quiz progress restored.");
       } else {
@@ -136,10 +144,7 @@ function shuffleQuestions(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const randomIndex = Math.floor(Math.random() * (i + 1));
 
-    [array[i], array[randomIndex]] = [
-      array[randomIndex],
-      array[i],
-    ];
+    [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
   }
 
   return array;
@@ -152,6 +157,8 @@ function startNewQuiz(quizData) {
   currentQuestionIndex = 0;
   quizState = "waiting";
   savedAnswers = {};
+  questionTimers = {};
+  pausedTimers = {};
 
   localStorage.removeItem(RESULTS_KEY);
 
@@ -164,6 +171,8 @@ function saveQuizState() {
     questionOrder: questions.map((question) => question.id),
     currentQuestionIndex: currentQuestionIndex,
     savedAnswers: savedAnswers,
+    questionTimers: questionTimers,
+    pausedTimers: pausedTimers,
   };
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -248,6 +257,15 @@ function displayQuestion() {
   updateProgress();
   updateButtonState();
 
+  if (quizState === "waiting" || quizState === "selected") {
+    startTimer();
+  } else if (quizState === "submitted") {
+    clearInterval(timerInterval);
+    timerInterval = null;
+
+    timerDisplay.textContent = "—";
+  }
+
   previousButton.disabled = currentQuestionIndex === 0;
 
   saveQuizState();
@@ -272,8 +290,7 @@ function displayAnswers() {
     input.value = answers[index];
     answerText.textContent = answers[index];
 
-    input.checked =
-      record?.selectedAnswer === answers[index];
+    input.checked = record?.selectedAnswer === answers[index];
 
     input.disabled = Boolean(record?.submitted);
   });
@@ -289,8 +306,7 @@ function displayFeedback() {
 
   if (!record || !record.submitted) return;
 
-  const isCorrect =
-    record.selectedAnswer === currentQuestion.answer;
+  const isCorrect = record.selectedAnswer === currentQuestion.answer;
 
   answerFeedback.hidden = false;
 
@@ -298,14 +314,12 @@ function displayFeedback() {
     answerFeedback.classList.add("is-correct");
 
     feedbackTitle.textContent = "Correct!";
-    feedbackExplanation.textContent =
-      `Great job! You earned ${POINTS_PER_QUESTION} points.`;
+    feedbackExplanation.textContent = `Great job! You earned ${POINTS_PER_QUESTION} points.`;
   } else {
     answerFeedback.classList.add("is-incorrect");
 
     feedbackTitle.textContent = "Incorrect!";
-    feedbackExplanation.textContent =
-      `The correct answer is ${currentQuestion.answer}.`;
+    feedbackExplanation.textContent = `The correct answer is ${currentQuestion.answer}.`;
   }
 }
 
@@ -316,14 +330,11 @@ function updateProgress() {
   if (totalQuestions === 0) return;
 
   const displayedQuestion = currentQuestionIndex + 1;
-  const percentage =
-    (displayedQuestion / totalQuestions) * 100;
+  const percentage = (displayedQuestion / totalQuestions) * 100;
 
-  questionNumber.textContent =
-    `Question ${displayedQuestion} of ${totalQuestions}`;
+  questionNumber.textContent = `Question ${displayedQuestion} of ${totalQuestions}`;
 
-  progressPercent.textContent =
-    `${Math.round(percentage)}%`;
+  progressPercent.textContent = `${Math.round(percentage)}%`;
 
   progressFill.style.width = `${percentage}%`;
 }
@@ -334,19 +345,16 @@ function updateButtonState() {
     nextButton.disabled = true;
     nextButtonText.textContent = "Submit Answer";
 
-    quizMessage.textContent =
-      "Select an answer to continue.";
+    quizMessage.textContent = "Select an answer to continue.";
   } else if (quizState === "selected") {
     nextButton.disabled = false;
     nextButtonText.textContent = "Submit Answer";
 
-    quizMessage.textContent =
-      "Ready? Submit to check your answer.";
+    quizMessage.textContent = "Ready? Submit to check your answer.";
   } else if (quizState === "submitted") {
     nextButton.disabled = false;
 
-    const isLastQuestion =
-      currentQuestionIndex === questions.length - 1;
+    const isLastQuestion = currentQuestionIndex === questions.length - 1;
 
     nextButtonText.textContent = isLastQuestion
       ? "View Results"
@@ -354,8 +362,7 @@ function updateButtonState() {
 
     const results = calculateScore();
 
-    quizMessage.textContent =
-      `Your score: ${results.score} points`;
+    quizMessage.textContent = `Your score: ${results.score} points`;
   }
 }
 
@@ -376,8 +383,6 @@ answerOptions.forEach((option) => {
       selectedAnswer: input.value,
       submitted: false,
     };
-
-    quizState = "selected";
 
     quizState = "selected";
     updateButtonState();
@@ -404,8 +409,10 @@ function submitAnswer() {
   if (!validAnswers.includes(record.selectedAnswer)) return;
 
   record.submitted = true;
-
   quizState = "submitted";
+
+  clearInterval(timerInterval);
+  timerInterval = null;
 
   saveQuizState();
 
@@ -429,8 +436,11 @@ function nextQuestion() {
 function previousQuestion() {
   if (currentQuestionIndex <= 0) return;
 
-  currentQuestionIndex--;
+  if (quizState === "waiting" || quizState === "selected") {
+    pauseTimer();
+  }
 
+  currentQuestionIndex--;
   displayQuestion();
 }
 
@@ -442,9 +452,7 @@ function finishQuiz() {
   const maxScore = totalQuestions * POINTS_PER_QUESTION;
 
   const percentage = totalQuestions
-    ? Math.round(
-        (results.correctAnswers / totalQuestions) * 100,
-      )
+    ? Math.round((results.correctAnswers / totalQuestions) * 100)
     : 0;
 
   const finalResults = {
@@ -456,10 +464,7 @@ function finishQuiz() {
     percentage: percentage,
   };
 
-  localStorage.setItem(
-    RESULTS_KEY,
-    JSON.stringify(finalResults),
-  );
+  localStorage.setItem(RESULTS_KEY, JSON.stringify(finalResults));
 
   saveQuizState();
 
@@ -489,3 +494,99 @@ previousButton.addEventListener("click", () => {
 // Initialize quiz
 updateButtonState();
 loadQuestions();
+
+// Timer
+
+function pauseTimer() {
+  if (timerInterval !== null) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  const currentQuestion = questions[currentQuestionIndex];
+  if (!currentQuestion) return;
+
+  const questionId = currentQuestion.id;
+
+  if (
+    questionTimers[questionId] !== undefined &&
+    pausedTimers[questionId] !== true
+  ) {
+    const remainingTime = Math.max(
+      0,
+      questionTimers[questionId] - Date.now(),
+    );
+
+    questionTimers[questionId] = remainingTime;
+    pausedTimers[questionId] = true;
+
+    saveQuizState();
+  }
+}
+
+function startTimer() {
+  if (timerInterval !== null) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  const currentQuestion = questions[currentQuestionIndex];
+  const questionId = currentQuestion.id;
+
+  if (pausedTimers[questionId] === true) {
+  questionTimers[questionId] = Date.now() + questionTimers[questionId];
+  pausedTimers[questionId] = false;
+  saveQuizState();
+} else if (questionTimers[questionId] === undefined) {
+  questionTimers[questionId] = Date.now() + timeLimit * 1000;
+  saveQuizState();
+}
+
+  timeLeft = Math.max(
+    0,
+    Math.ceil((questionTimers[questionId] - Date.now()) / 1000),
+  );
+
+  timerDisplay.textContent = `${timeLeft}`;
+
+  if (timeLeft <= 0) {
+    handleTimeUp();
+    return;
+  }
+
+  timerInterval = setInterval(function () {
+    if (questions[currentQuestionIndex]?.id !== questionId) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      return;
+    }
+
+    timeLeft = Math.max(
+      0,
+      Math.ceil((questionTimers[questionId] - Date.now()) / 1000),
+    );
+
+    timerDisplay.textContent = `${timeLeft}`;
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      handleTimeUp();
+    }
+  }, 1000);
+}
+
+function handleTimeUp() {
+  if (questions.length === 0) return;
+
+  const currentQuestion = questions[currentQuestionIndex];
+
+  savedAnswers[currentQuestion.id] = {
+    selectedAnswer: null,
+    submitted: true,
+  };
+
+  quizState = "submitted";
+
+  displayQuestion();
+}
