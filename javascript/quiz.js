@@ -1,3 +1,4 @@
+const soundClick = document.getElementById("click-sound");
 
 const STORAGE_KEY = "quizState";
 const RESULTS_KEY = "quizResults";
@@ -350,6 +351,9 @@ answerOptions.forEach((option) => {
     if (quizState === "submitted") return;
     if (questions.length === 0) return;
 
+    soundClick.currentTime = 0;
+    soundClick.play();
+
     const currentQuestion = questions[currentQuestionIndex];
 
     savedAnswers[currentQuestion.id] = {
@@ -451,14 +455,21 @@ function finishQuiz() {
 // Navigation events
 nextButton.addEventListener("click", () => {
   if (quizState === "selected") {
+    soundClick.currentTime = 0; 
+    soundClick.play();
     submitAnswer();
   } else if (quizState === "submitted") {
+    soundClick.currentTime = 0;
+    soundClick.play();
     nextQuestion();
   }
 });
 
-previousButton.addEventListener("click", previousQuestion);
-
+previousButton.addEventListener("click", () => {
+    soundClick.currentTime = 0;
+    soundClick.play();
+    previousQuestion();
+});
 // Initialize quiz
 updateButtonState();
 loadQuestions();
