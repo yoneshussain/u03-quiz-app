@@ -300,7 +300,7 @@
 
  @keyframes anim {
      to {
-         stroke-dashoffset: 20;
+         stroke-dashoffset: var(--target-offset);
      }
  }
 
