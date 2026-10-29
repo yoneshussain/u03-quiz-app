@@ -215,13 +215,16 @@ function getCurrentAnswer() {
 function calculateScore() {
   let correct = 0;
   let incorrect = 0;
+  let unanswered = 0;
 
   questions.forEach((question) => {
     const record = savedAnswers[question.id];
 
     if (!record || !record.submitted) return;
 
-    if (record.selectedAnswer === question.answer) {
+    if (record.selectedAnswer === null) {
+      unanswered++;
+    } else if (record.selectedAnswer === question.answer) {
       correct++;
     } else {
       incorrect++;
@@ -232,6 +235,8 @@ function calculateScore() {
     score: correct * POINTS_PER_QUESTION,
     correctAnswers: correct,
     incorrectAnswers: incorrect,
+    unansweredQuestions: unanswered,
+    answeredQuestions: correct + incorrect,
   };
 }
 
@@ -302,13 +307,21 @@ function displayFeedback() {
   const record = getCurrentAnswer();
 
   answerFeedback.hidden = true;
-  answerFeedback.classList.remove("is-correct", "is-incorrect");
+  answerFeedback.classList.remove("is-correct", "is-incorrect", "is-timeout");
 
   if (!record || !record.submitted) return;
 
-  const isCorrect = record.selectedAnswer === currentQuestion.answer;
-
   answerFeedback.hidden = false;
+
+    if (record.selectedAnswer === null) {
+    answerFeedback.classList.add("is-timeout");
+
+    feedbackTitle.textContent = "You took too long!";
+    feedbackExplanation.textContent = `The correct answer is ${currentQuestion.answer}.`;
+    return;
+  }
+
+  const isCorrect = record.selectedAnswer === currentQuestion.answer;
 
   if (isCorrect) {
     answerFeedback.classList.add("is-correct");
@@ -460,6 +473,8 @@ function finishQuiz() {
     maxScore: maxScore,
     correctAnswers: results.correctAnswers,
     incorrectAnswers: results.incorrectAnswers,
+    unansweredQuestions: results.unansweredQuestions,
+    answeredQuestions: results.answeredQuestions,
     totalQuestions: totalQuestions,
     percentage: percentage,
   };

@@ -6,6 +6,9 @@
   --color-incorrect-border: #efc3c3;
   --color-incorrect-title: #b33a3a;
   --color-option-selected: #f0efff;
+  --color-timeout-bg: #fff8e6;
+  --color-timeout-border: #f0d48a;
+  --color-timeout-title: #8a5a00;
 }
 
 .card {
@@ -276,6 +279,15 @@
   color: var(--color-incorrect-title);
 }
 
+.answer-feedback.is-timeout {
+  border-color: var(--color-timeout-border);
+  background-color: var(--color-timeout-bg);
+}
+
+.answer-feedback.is-timeout .feedback-title {
+  color: var(--color-timeout-title);
+}
+
 .quote-text {
   display: flex;
   justify-content: center;
@@ -327,4 +339,7 @@
   --color-incorrect-border: #7a3a44;
   --color-incorrect-title: #ff9b9b;
   --color-option-selected: #2a2f55;
+  --color-timeout-bg: #fff8e6;
+  --color-timeout-border: #f0d48a;
+  --color-timeout-title: #8a5a00;
 }
