@@ -1,0 +1,390 @@
+ html {
+     font-size: 62.5%;
+ }
+
+ header {
+     .logo {
+         span {
+             font-size: 2.3rem;
+         }
+
+         gap: 1rem;
+         margin-left: 2.4rem;
+     }
+
+     height: 8rem;
+
+     .theme-toggle {
+         width: 7.6rem;
+         height: 4rem;
+         padding: 0 1.12rem;
+     }
+
+     button {
+         margin-right: 2.4rem;
+     }
+
+     .theme-toggle.is-dark .knob {
+         transform: translateX(3.6rem);
+     }
+
+     .knob {
+         width: 3.2rem;
+         height: 3.2rem;
+         top: 0.4rem;
+         left: 0.4rem;
+     }
+ }
+
+ body {
+     min-height: 100dvh;
+     display: flex;
+     flex-direction: column;
+ }
+
+ main {
+     flex: 1;
+ }
+
+ .card {
+     margin: 32px 24px 24px 24px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     text-align: center;
+     box-shadow: 0 1.2rem 4rem var(--color-card-shadow);
+     gap: 16px;
+     padding: 0px;
+
+     .results-label {
+         color: #8C6BD1;
+         font-weight: 600;
+         font-size: 1rem;
+         display: flex;
+         align-items: center;
+         gap: 5px;
+         margin-top: 26px;
+     }
+
+     h1 {
+         font-size: 2.8rem;
+         color: var(--color-heading);
+     }
+
+     .wrapper {
+         width: 148px;
+         height: 148px;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         position: relative;
+
+         .outer {
+             width: 148px;
+             height: 148px;
+             border-radius: 50%;
+             border: 8px solid var(--color-background);
+         }
+
+         .inner {
+             width: 134px;
+             height: 134px;
+             border-radius: 50%;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+         }
+
+         .quiz-score {
+             font-size: 3.6rem;
+             font-weight: 1000;
+             color: var(--color-heading);
+         }
+
+         .quiz-percentage {
+             color: var(--color-btn);
+             font-weight: 600;
+         }
+
+         svg {
+             position: absolute;
+
+             circle {
+                 fill: none;
+                 stroke: var(--color-btn);
+                 stroke-width: 7px;
+                 stroke-dasharray: 100;
+                 stroke-dashoffset: 100;
+                 animation: anim 3s ease forwards;
+                 transform: rotate(-90deg);
+                 transform-origin: center;
+             }
+         }
+     }
+
+     h3 {
+         font-size: 1.7rem;
+         font-weight: 800;
+         color: var(--color-heading);
+         padding: 0px 24px;
+     }
+
+     h4 {
+         font-size: 1.3rem;
+         color: var(--color-text);
+         font-weight: 300;
+         padding: 0px 24px;
+
+     }
+
+     .score-boxes {
+         display: flex;
+         gap: 8px;
+         flex-wrap: wrap;
+         justify-content: center;
+         align-items: center;
+
+         .score-box {
+             background-color: var(--color-background);
+             padding: 8px 12px;
+             min-width: 92px;
+             height: 70px;
+             border-radius: 14px;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             justify-content: center;
+             gap: 5px;
+
+             .score {
+                 font-size: 2.2rem;
+             }
+
+             .correct-score {
+                 color: #23754E;
+             }
+
+             .incorrect-score {
+                 color: #B43B4D;
+             }
+
+             .answered-score {
+                 color: var(--color-btn);
+             }
+
+             p {
+                 color: var(--color-text);
+                 font-size: 1.1rem;
+             }
+         }
+     }
+
+     .facts-box {
+         background-color: var(--color-background);
+         border-radius: 14px;
+         display: flex;
+         flex-direction: column;
+         padding: 16px;
+         gap: 14px;
+         width: 90%;
+         max-width: 295px;
+         min-height: 143px;
+         align-items: flex-start;
+         justify-content: center;
+         font-size: 12px;
+
+         .facts-label {
+             font-weight: 600;
+             color: var(--color-heading);
+         }
+
+         .fact {
+             display: flex;
+             align-items: center;
+             gap: 10px;
+             text-align: left;
+             color: var(--color-text);
+         }
+
+         .fact-answer {
+             display: block;
+             font-weight: 600;
+             color: var(--color-heading);
+         }
+     }
+
+     .button-container {
+         display: flex;
+         flex-direction: column;
+         gap: 12px;
+         width: 90%;
+         max-width: 295px;
+         justify-content: center;
+
+         .buttons {
+             height: 52px;
+             border-radius: 14px;
+             font-size: 1.5rem;
+             border: none;
+             background-color: var(--color-btn);
+             font-family: "Inter";
+             cursor: pointer;
+
+
+             .restart-button {
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+                 gap: 10px;
+                 color: white;
+                 font-weight: 600;
+
+             }
+
+
+
+
+         }
+
+         .button-1 {
+             transition:
+                 background-color,
+                 box-shadow,
+                 300ms;
+         }
+
+         .button-1:hover {
+             background-color: #4450bb;
+             box-shadow: 0px 0px 10px rgba(169, 169, 169, 0.033);
+         }
+
+         .home-button {
+             background-color: white;
+             border: 1px solid var(--color-border);
+             font-weight: 600;
+             margin-bottom: 24px;
+             width: 100%;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             text-decoration: none;
+             transition:
+                 background-color,
+                 box-shadow,
+                 300ms;
+
+             .home-text {
+                 color: black;
+             }
+         }
+
+         .home-button:hover {
+             background-color: rgba(245, 245, 245, 0.469);
+             box-shadow: 0px 0px 10px rgba(167, 167, 167, 0.136);
+         }
+     }
+ }
+
+ .btm-text {
+     display: none;
+ }
+
+ footer {
+     padding: 2.8rem 2.4rem;
+
+     p {
+         font-size: 1.2rem;
+     }
+ }
+
+ @keyframes anim {
+     to {
+         stroke-dashoffset: var(--target-offset);
+     }
+ }
+
+ @media (min-width: 1024px) {
+     .hide-desktop {
+         display: none;
+     }
+
+     .hide-mobile {
+         display: block;
+     }
+
+     header {
+         height: 8rem;
+         margin-bottom: 4rem;
+
+         .logo {
+             margin-left: 6.4rem;
+         }
+
+         button {
+             margin-right: 6.4rem;
+         }
+     }
+
+     .card {
+         width: 100%;
+         max-width: 72rem;
+         margin: 0px auto;
+         justify-content: center;
+
+         .score-boxes {
+             flex-wrap: nowrap;
+         }
+
+         .score-box {
+             width: 210px;
+         }
+
+         .facts-box {
+             max-width: none;
+             padding: 18px;
+             min-height: 0px;
+
+             .fact {
+                 width: 100%;
+             }
+
+             .text-holder {
+                 display: flex;
+                 flex: 1;
+             }
+
+             .fact-answer {
+                 margin-left: auto;
+             }
+         }
+
+         .button-container {
+             flex-direction: row;
+             padding-bottom: 2.5rem;
+
+
+             .buttons {
+                 width: 146px;
+             }
+
+             .home-button {
+                 margin: 0;
+             }
+         }
+     }
+
+     .btm-text {
+         display: inline;
+         text-align: center;
+         margin-top: 2rem;
+         font-size: 12px;
+         font-weight: 100;
+         color: var(--color-text);
+     }
+
+     footer {
+         justify-content: space-between;
+         padding: 4rem 6.4rem;
+     }
+ }

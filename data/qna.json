@@ -1,0 +1,94 @@
+{
+  "quiz": [
+    {
+      "id": 1,
+      "question": "Which planet is known as the Red Planet?",
+      "alt-1": "Venus",
+      "alt-2": "Mars",
+      "alt-3": "Jupiter",
+      "alt-4": "Mercury",
+      "answer": "Mars"
+    },
+    {
+      "id": 2,
+      "question": "What is the largest ocean on Earth?",
+      "alt-1": "Atlantic Ocean",
+      "alt-2": "Indian Ocean",
+      "alt-3": "Pacific Ocean",
+      "alt-4": "Arctic Ocean",
+      "answer": "Pacific Ocean"
+    },
+    {
+      "id": 3,
+      "question": "Who painted the Mona Lisa?",
+      "alt-1": "Vincent van Gogh",
+      "alt-2": "Pablo Picasso",
+      "alt-3": "Claude Monet",
+      "alt-4": "Leonardo da Vinci",
+      "answer": "Leonardo da Vinci"
+    },
+    {
+      "id": 4,
+      "question": "What is the chemical symbol for gold?",
+      "alt-1": "Ag",
+      "alt-2": "Au",
+      "alt-3": "Fe",
+      "alt-4": "Cu",
+      "answer": "Au"
+    },
+    {
+      "id": 5,
+      "question": "On which continent is the Sahara Desert located?",
+      "alt-1": "Africa",
+      "alt-2": "Asia",
+      "alt-3": "Australia",
+      "alt-4": "South America",
+      "answer": "Africa"
+    },
+    {
+      "id": 6,
+      "question": "How many sides does a hexagon have?",
+      "alt-1": "Five",
+      "alt-2": "Six",
+      "alt-3": "Seven",
+      "alt-4": "Eight",
+      "answer": "Six"
+    },
+    {
+      "id": 7,
+      "question": "Which gas do plants absorb during photosynthesis?",
+      "alt-1": "Oxygen",
+      "alt-2": "Nitrogen",
+      "alt-3": "Carbon dioxide",
+      "alt-4": "Hydrogen",
+      "answer": "Carbon dioxide"
+    },
+    {
+      "id": 8,
+      "question": "What is the capital of Japan?",
+      "alt-1": "Kyoto",
+      "alt-2": "Osaka",
+      "alt-3": "Seoul",
+      "alt-4": "Tokyo",
+      "answer": "Tokyo"
+    },
+    {
+      "id": 9,
+      "question": "Which instrument measures temperature?",
+      "alt-1": "Barometer",
+      "alt-2": "Thermometer",
+      "alt-3": "Anemometer",
+      "alt-4": "Hygrometer",
+      "answer": "Thermometer"
+    },
+    {
+      "id": 10,
+      "question": "What is the largest mammal?",
+      "alt-1": "African elephant",
+      "alt-2": "Giraffe",
+      "alt-3": "Blue whale",
+      "alt-4": "Hippopotamus",
+      "answer": "Blue whale"
+    }
+  ]
+}
