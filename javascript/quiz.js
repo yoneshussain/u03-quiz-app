@@ -1,4 +1,3 @@
-
 const STORAGE_KEY = "quizState";
 const RESULTS_KEY = "quizResults";
 const POINTS_PER_QUESTION = 10;
@@ -24,6 +23,8 @@ const progressFill = document.getElementById("progress-fill");
 
 const timerDisplay = document.getElementById("timer-display");
 const soundClick = document.getElementById("click-sound");
+const correctSound = document.querySelector("#correct-sound");
+const incorrectSound = document.querySelector("#incorrect-sound");
 
 const answerOptions = document.querySelectorAll(".answer-option");
 
@@ -313,11 +314,14 @@ function displayFeedback() {
 
   answerFeedback.hidden = false;
 
-    if (record.selectedAnswer === null) {
+  if (record.selectedAnswer === null) {
     answerFeedback.classList.add("is-timeout");
 
     feedbackTitle.textContent = "You took too long!";
     feedbackExplanation.textContent = `The correct answer is ${currentQuestion.answer}.`;
+
+    incorrectSound.currentTime = 0;
+    incorrectSound.play();
     return;
   }
 
@@ -328,11 +332,15 @@ function displayFeedback() {
 
     feedbackTitle.textContent = "Correct!";
     feedbackExplanation.textContent = `Great job! You earned ${POINTS_PER_QUESTION} points.`;
+    correctSound.currentTime = 0;
+    correctSound.play();
   } else {
     answerFeedback.classList.add("is-incorrect");
 
     feedbackTitle.textContent = "Incorrect!";
     feedbackExplanation.textContent = `The correct answer is ${currentQuestion.answer}.`;
+    incorrectSound.currentTime = 0;
+    incorrectSound.play();
   }
 }
 
@@ -491,7 +499,7 @@ function finishQuiz() {
 // Navigation events
 nextButton.addEventListener("click", () => {
   if (quizState === "selected") {
-    soundClick.currentTime = 0; 
+    soundClick.currentTime = 0;
     soundClick.play();
     submitAnswer();
   } else if (quizState === "submitted") {
@@ -502,9 +510,9 @@ nextButton.addEventListener("click", () => {
 });
 
 previousButton.addEventListener("click", () => {
-    soundClick.currentTime = 0;
-    soundClick.play();
-    previousQuestion();
+  soundClick.currentTime = 0;
+  soundClick.play();
+  previousQuestion();
 });
 // Initialize quiz
 updateButtonState();
@@ -527,10 +535,7 @@ function pauseTimer() {
     questionTimers[questionId] !== undefined &&
     pausedTimers[questionId] !== true
   ) {
-    const remainingTime = Math.max(
-      0,
-      questionTimers[questionId] - Date.now(),
-    );
+    const remainingTime = Math.max(0, questionTimers[questionId] - Date.now());
 
     questionTimers[questionId] = remainingTime;
     pausedTimers[questionId] = true;
@@ -549,13 +554,13 @@ function startTimer() {
   const questionId = currentQuestion.id;
 
   if (pausedTimers[questionId] === true) {
-  questionTimers[questionId] = Date.now() + questionTimers[questionId];
-  pausedTimers[questionId] = false;
-  saveQuizState();
-} else if (questionTimers[questionId] === undefined) {
-  questionTimers[questionId] = Date.now() + timeLimit * 1000;
-  saveQuizState();
-}
+    questionTimers[questionId] = Date.now() + questionTimers[questionId];
+    pausedTimers[questionId] = false;
+    saveQuizState();
+  } else if (questionTimers[questionId] === undefined) {
+    questionTimers[questionId] = Date.now() + timeLimit * 1000;
+    saveQuizState();
+  }
 
   timeLeft = Math.max(
     0,
