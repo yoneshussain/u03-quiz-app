@@ -94,12 +94,10 @@ getQuestions().then((data) => {
     factsBox.style.display = "none";
     resultsQuote.textContent = "Well done! You got all questions correct 🎉";
     document.body.append(gif);
-    document.addEventListener("DOMContentLoaded", () => {
       clappingSound.currentTime = 0;
       clappingSound.play();
       cheeringSound.currentTime = 0;
       cheeringSound.play();
-    });
     setTimeout(() => {
       gif.remove();
     }, 4000);
