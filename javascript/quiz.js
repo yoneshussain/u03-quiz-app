@@ -264,11 +264,12 @@ function displayQuestion() {
   updateButtonState();
 
   if (quizState === "waiting" || quizState === "selected") {
+    timerDisplay.classList.remove("submitted");
     startTimer();
   } else if (quizState === "submitted") {
     clearInterval(timerInterval);
     timerInterval = null;
-
+    timerDisplay.classList.add("submitted");
     timerDisplay.textContent = "—";
   }
 

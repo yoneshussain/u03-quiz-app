@@ -9,6 +9,9 @@
   --color-timeout-bg: #fff8e6;
   --color-timeout-border: #f0d48a;
   --color-timeout-title: #8a5a00;
+  --color-timer-background: #e3e9ff;
+  --color-btn-disabled-bg: #e8ebf2;
+  --color-btn-disabled-text: #8790a5;
 }
 
 .card {
@@ -67,7 +70,8 @@
 .progress-info {
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 #question-number {
@@ -77,19 +81,39 @@
   color: var(--color-heading);
 }
 
+.timer-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-timer-background);
+  color: var(--color-btn);
+  border-radius: 999px;
+  padding: 10px 20px;
+}
+
+#timer-display {
+  color: var(--color-btn);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+#timer-display::after {
+  content: "s";
+}
+
+#timer-display.submitted::after {
+  content: "";
+}
+
 #progress-percent {
   margin-left: auto;
   font-size: 13px;
   color: var(--color-toggle-inactive);
 }
 
-#timer-display {
-  padding-right: 83px;
-  font-weight: 900;
-}
-
 .progress-bar {
-  background-color: #e6e9f4;
+  background-color: var(--color-timer-background);
   height: 8px;
   border-radius: 999px;
   overflow: hidden;
@@ -142,8 +166,8 @@
 }
 
 #next-btn:disabled {
-  background-color: #e8ebf2;
-  color: #8790a5;
+  background-color: var(--color-btn-disabled-bg);
+  color: var(--color-btn-disabled-text);
 }
 
 #next-btn:disabled img {
@@ -234,7 +258,6 @@
   white-space: nowrap;
   border: 0;
 }
-
 
 .answer-option:has(input:checked) {
   border-color: var(--color-btn);
@@ -329,9 +352,9 @@
 }
 
 @media (max-width: 1024px) {
-.card {
-  margin: 0px 30px;
-}
+  .card {
+    margin: 0px 30px;
+  }
 }
 
 @media (max-width: 480px) {
