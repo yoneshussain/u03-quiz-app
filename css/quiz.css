@@ -12,6 +12,9 @@
   --color-timer-background: #e3e9ff;
   --color-btn-disabled-bg: #e8ebf2;
   --color-btn-disabled-text: #8790a5;
+  --color-correct-text: #2f5e43;
+  --color-incorrect-text: #7a3434;
+  --color-timeout-text: #6b4e12;
 }
 
 .card {
@@ -300,6 +303,10 @@
   color: var(--color-correct-title);
 }
 
+.answer-feedback.is-correct .feedback-explanation {
+  color: var(--color-correct-text);
+}
+
 .answer-feedback.is-incorrect {
   border-color: var(--color-incorrect-border);
   background-color: var(--color-incorrect-bg);
@@ -307,6 +314,10 @@
 
 .answer-feedback.is-incorrect .feedback-title {
   color: var(--color-incorrect-title);
+}
+
+.answer-feedback.is-incorrect .feedback-explanation {
+  color: var(--color-incorrect-text);
 }
 
 .answer-feedback.is-timeout {
@@ -317,6 +328,11 @@
 .answer-feedback.is-timeout .feedback-title {
   color: var(--color-timeout-title);
 }
+
+.answer-feedback.is-timeout .feedback-explanation {
+  color: var(--color-timeout-text);
+}
+
 
 .quote-text {
   display: flex;
@@ -382,4 +398,7 @@
   --color-timeout-bg: #5d502b;
   --color-timeout-border: #9d9377;
   --color-timeout-title: #ffc65c;
+  --color-correct-text: #c6ecd5;
+  --color-incorrect-text: #f4cccc;
+  --color-timeout-text: #fbe8bf;
 }

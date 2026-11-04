@@ -320,9 +320,6 @@ function displayFeedback() {
 
     feedbackTitle.textContent = "You took too long!";
     feedbackExplanation.textContent = `The correct answer is ${currentQuestion.answer}.`;
-
-    incorrectSound.currentTime = 0;
-    incorrectSound.play();
     return;
   }
 
@@ -333,16 +330,27 @@ function displayFeedback() {
 
     feedbackTitle.textContent = "Correct!";
     feedbackExplanation.textContent = `Great job! You earned ${POINTS_PER_QUESTION} points.`;
-    correctSound.currentTime = 0;
-    correctSound.play();
   } else {
     answerFeedback.classList.add("is-incorrect");
 
     feedbackTitle.textContent = "Incorrect!";
     feedbackExplanation.textContent = `The correct answer is ${currentQuestion.answer}.`;
-    incorrectSound.currentTime = 0;
-    incorrectSound.play();
   }
+}
+
+function playFeedbackSound() {
+  const currentQuestion = questions[currentQuestionIndex];
+  const record = getCurrentAnswer();
+
+  if (!record) return;
+
+  const sound =
+    record.selectedAnswer === currentQuestion.answer
+      ? correctSound
+      : incorrectSound;
+
+  sound.currentTime = 0;
+  sound.play();
 }
 
 // Update progress bar
@@ -439,6 +447,7 @@ function submitAnswer() {
   saveQuizState();
 
   displayQuestion();
+  playFeedbackSound();
 }
 
 // Move to next question
@@ -610,4 +619,5 @@ function handleTimeUp() {
   quizState = "submitted";
 
   displayQuestion();
+  playFeedbackSound();
 }
