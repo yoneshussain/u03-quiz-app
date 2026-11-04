@@ -231,19 +231,10 @@
              font-family: "Inter";
              cursor: pointer;
 
-
-             .restart-button {
-                 display: flex;
-                 justify-content: center;
-                 align-items: center;
-                 gap: 10px;
+             .try-again {
                  color: white;
                  font-weight: 600;
-
              }
-
-
-
 
          }
 
