@@ -2,7 +2,7 @@
 ## Yones, Bryan, Mostafa, Daniel
 https://yoneshussain.github.io/u03-quiz-app/index.html
 
-![image of our skisses](image.png)
+![image of our skisses](assets/image.png)
 
 ### Sammanfattning av quizet
 
