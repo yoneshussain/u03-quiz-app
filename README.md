@@ -4,6 +4,10 @@ https://yoneshussain.github.io/u03-quiz-app/index.html
 
 ![image of our skisses](assets/image.png)
 
+![arrow icon](assets/arrow.png)
+
+![image of finished product](assets/finishedProduct.png)
+
 ### Sammanfattning av quizet
 
 Vi började koda en homepage där användaren välkomnas på en sida som heter Quizify, där användaren får information om frågor, tid, och hur quizzet fungerar. Spelaren får tio frågor och varje fråga har en 30 sekunders timer. Det finns även en knapp för light / dark mode som ändrar utseendet på sidan och då sparas det lokalt. Hela quizet sparas även i localstorage, och det görs när använder trycker på start quiz knappen. Bland annat så lagras den nuvarande frågan, hur långt man kommit i quizet (rent procentuellt) och vad man håller på med i quizet, alltså om man tryckt någonstans, osv. Informationen i localstorage sparas då ifall någon lämnar sidan eller råkar stänga fliken, och samma information i localstorage används för att visa resultaten på slutet. På resultatsidan så kan användaren se hur många rätt man fått, och där kan man även få svar på ens inkorrekta svar.  
