@@ -1,6 +1,6 @@
 # U03 - QUIZ APP | QUIZIFY
 ## Yones, Bryan, Mostafa, Daniel
-https://yoneshussain.github.io/u03-quiz-app/index.html
+### Länk till appen: https://yoneshussain.github.io/u03-quiz-app/index.html
 
 ![image of our skisses](assets/image.png)
 
