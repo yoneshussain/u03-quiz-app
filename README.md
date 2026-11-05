@@ -4,8 +4,6 @@ https://yoneshussain.github.io/u03-quiz-app/index.html
 
 ![image of our skisses](assets/image.png)
 
-![arrow icon](assets/arrow.png)
-
 ![image of finished product](assets/finishedProduct.png)
 
 ### Sammanfattning av quizet
